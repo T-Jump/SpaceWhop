@@ -21,7 +21,6 @@ var runPressed = false;
 
 // game settings
 var fps = 60;
-var playerSpeed = 3;
 var gravity = 1;
 
 
@@ -52,6 +51,7 @@ function Player(imgSource) {
 
 Player.width = 25;
 Player.height = 54;
+Player.speed = 3;
 
 
 // players
@@ -212,9 +212,9 @@ function updatePlayer(player) {
 	var topBoundary = arena.border * arena.rowHeight;
 	
 	var animationSpeed = 100;
-	var currentSpeed = playerSpeed;
+	var currentSpeed = Player.speed;
 	if(runPressed){
-		currentSpeed += playerSpeed / 2;
+		currentSpeed += Player.speed / 2;
 		animationSpeed /= 2;
 	};
 	currentSpeed = Math.round(currentSpeed);
@@ -249,8 +249,6 @@ function updatePlayer(player) {
 	if(rightPressed) {movePlayerRight(player, currentSpeed);} 
 	else if(leftPressed) {movePlayerLeft(player, currentSpeed);}
 	else { player.frameIndex = 1;};
-	
-	console.log("yVelocity = " + player.yVelocity + ", y = " + player.y);
 };
 
 
