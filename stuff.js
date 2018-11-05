@@ -17,6 +17,10 @@ var leftPressed = false;
 var upPressed = false;
 var downPressed = false;
 var runPressed = false;
+var getPressed = false;
+var dropPressed = false;
+
+var puzzleOneSolved = false;
 
 
 // game settings
@@ -25,10 +29,16 @@ var gravity = 1;
 
 
 // classes
+function Tile() {
+	//tbd
+};
+
 function CosmicCube(frameNum) {
 	this.currentFrame = frameNum;
-	// this.x = 0;
-	// this.y = 0;
+	this.x = 0;
+	this.y = 0;
+	this.animated = false;
+	this.moveable = true;
 };
 
 CosmicCube.source = "graphics/sprite-sheet-tiles.png";
@@ -38,15 +48,24 @@ CosmicCube.animationFrames = 4;
 CosmicCube.image = new Image();
 CosmicCube.image.src = CosmicCube.source;
 
+function GravityCube() {
+	this.x = 0;
+	this.y = 0;
+};
+
+GravityCube.sx = 0;
+GravityCube.sy = 20;
+
 function Player(imgSource) {
 	this.image = new Image();
 	this.image.src = imgSource;
-	this.x = 200;
+	this.x = 250;
 	this.y = 305;
 	this.frameIndex = 1;
-	this.animationIndex = 0;
+	this.animationIndex = 1;
 	this.yVelocity = 0;
 	this.jumpForce = 10;
+	this.held = null;
 };
 
 Player.width = 25;
@@ -90,6 +109,31 @@ var arena = {
 	],
 };
 
+var puzzle1 = {
+	tiles: [ // 5 = gravity block, 4 = goal, 3 = player, 2 = puzzle block, 1 = cosmic cube, 0 = nothing
+		[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+		[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+		[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+		[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+		[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+		[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+		[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+		[1, 1, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+		[1, 1, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+		[1, 1, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+		[1, 1, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+		[1, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+		[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+		[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+		[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+		[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1, 1],
+		[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+	],
+};
+
 // end of variables
 
 // beginning of function library
@@ -113,7 +157,10 @@ function keyDownHandler(event) {
 		case 37: leftPressed = true; break;
 		case 40: downPressed = true; break;
 		case 38: upPressed = true; break;
-		case 16: runPressed = true; break;
+		//case 16: runPressed = true; break;
+		case 90: runPressed = true; break;
+		case 88: getPressed = true; break;
+		case 67: dropPressed = true; break;
 	};
 };
 
@@ -123,7 +170,10 @@ function keyUpHandler(event) {
 		case 37: leftPressed = false; break;
 		case 40: downPressed = false; break;
 		case 38: upPressed = false; break;
-		case 16: runPressed = false; break;
+		//case 16: runPressed = false; break;
+		case 90: runPressed = false; break;
+		case 88: getPressed = false; break;
+		case 67: dropPressed = false; break;
 	};
 	elapsedFramesMovement = 0;
 };
@@ -131,7 +181,7 @@ function keyUpHandler(event) {
 
 // arena functions
 function drawCube(cosmicCube, dx, dy) {
-	if(timeElapsed(100)) {
+	if(cosmicCube.animated && timeElapsed(100)) {
 		cosmicCube.currentFrame = Math.floor(Math.random() * CosmicCube.animationFrames);
 	};
 	var sx = CosmicCube.width * cosmicCube.currentFrame;
@@ -140,6 +190,9 @@ function drawCube(cosmicCube, dx, dy) {
 };
 
 function drawArena() {
+	if(!puzzleOneSolved) {
+		arena.tiles = puzzle1.tiles;
+	}
 	for(var r = 0; r < arena.tiles.length; r++) {
 		var row = arena.tiles[r];
 		for(var c = 0; c < row.length; c++) {
@@ -154,16 +207,30 @@ function drawArena() {
 	};
 };
 
-function updateTileMap() { // changes 1 to CosmicCube and 0 to null in arena.tiles
-	for(var r = 0; r < arena.tiles.length; r++) {
-		var row = arena.tiles[r];
-		for(var c = 0; c < row.length; c++) {
-			var currentTile = arena.tiles[r][c];
-			if(currentTile == 1) {
-				arena.tiles[r][c] = new CosmicCube(0);
-			}
-			else {
-				arena.tiles[r][c] = null;
+function updateTileMap() { // changes 1 to CosmicCube and 0 to null and etc
+	maps = [arena.tiles, puzzle1.tiles];
+	for(var i = 0; i < maps.length; i++) {
+		map = maps[i];
+		for(var r = 0; r < map.length; r++) {
+			var row = map[r];
+			for(var c = 0; c < row.length; c++) {
+				var currentTile = map[r][c];
+				if(currentTile == 1) {
+					map[r][c] = new CosmicCube(0);
+					map[r][c].animated = true;
+				}
+				else if(currentTile == 0) {
+					map[r][c] = null;
+				}
+				else if(currentTile == 2) {
+					randomFrame = Math.floor(Math.random() * CosmicCube.animationFrames);
+					map[r][c] = new CosmicCube(randomFrame);
+					map[r][c].x = c * arena.columnWidth;
+					map[r][c].y = r * arena.rowHeight;
+				}
+				else if(currentTile == 5) {
+					map[r][c] = new GravityCube();
+				};
 			};
 		};
 	};
@@ -188,27 +255,87 @@ function animatePlayer(player, animationSpeed) {
 function movePlayerLeft(player, speed) {
 	player.animationIndex = 0;
 	player.x -= speed;
-	var leftBoundary = arena.border * arena.columnWidth;
-	if(player.x < leftBoundary) {
-		player.x = leftBoundary;
-	};
+	player.x = checkLeft(player);
 };
 
 function movePlayerRight(player, speed) {
 	player.animationIndex = 1;
 	player.x += speed;
-	var rightBoundary = canvas.width - (arena.border * arena.columnWidth);
-	if((player.x + Player.width) > rightBoundary) {
-		player.x = rightBoundary - Player.width;
-	}
+	player.x = checkRight(player);
 };
 
-function isOnGround(player, bottomBoundary) {
-	return (player.y + Player.height) == bottomBoundary;
+function isOnGround(player) {
+	var xIndexMin = Math.floor(player.x / arena.columnWidth);
+	var xIndexMax = Math.floor((player.x + Player.width) / arena.columnWidth);
+	var yIndex = Math.floor((player.y + Player.height + 1) / arena.rowHeight);
+	for(var xIndex = xIndexMin; xIndex <= xIndexMax; xIndex++) {
+		var currentTile = arena.tiles[yIndex][xIndex];
+		if(currentTile !== null) {
+			return true;
+		};
+	};
+	return false;
+};
+
+function checkLeft(player) {
+	var xIndex = Math.floor(player.x / arena.columnWidth);
+	var yIndexMin = Math.floor(player.y / arena.rowHeight);
+	var yIndexMax = Math.floor((player.y + Player.height) / arena.rowHeight);
+	var xPos = player.x;
+	for(var yIndex = yIndexMin; yIndex <= yIndexMax; yIndex++) {
+		var currentTile = arena.tiles[yIndex][xIndex];
+		if(currentTile !== null) {
+			xPos = xIndex * arena.columnWidth + arena.columnWidth + 1;
+			break;
+		};
+	};
+	return xPos;
+};
+
+function checkRight(player) {
+	var xIndex = Math.floor((player.x + Player.width) / arena.columnWidth);
+	var yIndexMin = Math.floor(player.y / arena.rowHeight);
+	var yIndexMax = Math.floor((player.y + Player.height) / arena.rowHeight);
+	var xPos = player.x;
+	for(var yIndex = yIndexMin; yIndex <= yIndexMax; yIndex++) {
+		var currentTile = arena.tiles[yIndex][xIndex];
+		if(currentTile !== null) {
+			xPos = (xIndex * arena.columnWidth) - Player.width - 1;
+			break;
+		};
+	};
+	return xPos;
+};
+
+function checkDown(player) {
+	var xIndexMin = Math.floor(player.x / arena.columnWidth);
+	var xIndexMax = Math.floor((player.x + Player.width) / arena.columnWidth);
+	var yIndex = Math.floor((player.y + Player.height) / arena.rowHeight);
+	for(var xIndex = xIndexMin; xIndex <= xIndexMax; xIndex++) {
+		var currentTile = arena.tiles[yIndex][xIndex];
+		if(currentTile !== null) {
+			player.y = (yIndex * arena.rowHeight) - Player.height - 1;
+			player.yVelocity = 0;
+			break;
+		};
+	};
+};
+
+function checkUp(player) {
+	var xIndexMin = Math.floor(player.x / arena.columnWidth);
+	var xIndexMax = Math.floor((player.x + Player.width) / arena.columnWidth);
+	var yIndex = Math.floor(player.y / arena.rowHeight);
+	for(var xIndex = xIndexMin; xIndex <= xIndexMax; xIndex++) {
+		var currentTile = arena.tiles[yIndex][xIndex];
+		if(currentTile !== null) {
+			player.y = yIndex * arena.rowHeight + arena.rowHeight + 1;
+			player.yVelocity = 0;
+			break;
+		};
+	};
 };
 
 function updatePlayer(player) {
-	var bottomBoundary = canvas.height - (arena.border * arena.rowHeight);
 	var topBoundary = arena.border * arena.rowHeight;
 	
 	var animationSpeed = 100;
@@ -219,25 +346,38 @@ function updatePlayer(player) {
 	};
 	currentSpeed = Math.round(currentSpeed);
 	
-	if(isOnGround(player, bottomBoundary)) {
+	if(isOnGround(player)) {
+		player.yVelocity = 0;
 		if(upPressed) {
 			player.yVelocity -= player.jumpForce;
+		};
+		if(getPressed && player.held == null) {
+			var xCenter = player.x + Math.floor(Player.width / 2);
+			var yIndex = Math.floor((player.y + Player.height + 1) / arena.rowHeight);
+			var xIndex = Math.floor(xCenter / arena.columnWidth);
+			var currentTile = arena.tiles[yIndex][xIndex];
+			if(currentTile.moveable) {
+				player.held = currentTile;
+				arena.tiles[yIndex][xIndex] = null;
+			};
+		};
+		if(dropPressed && player.held != null) {
+			var xCenter = player.x + Math.floor(Player.width / 2);
+			var yIndex = Math.floor((player.y + Player.height + 1) / arena.rowHeight) - 1;
+			var xIndex = Math.floor(xCenter / arena.columnWidth);
+			arena.tiles[yIndex][xIndex] = player.held;
+			player.held = null;
 		};
 	};
 	
 	player.y += player.yVelocity;
-	
-	if((player.y + Player.height) > bottomBoundary) {
-		player.y = bottomBoundary - Player.height;
-		player.yVelocity = 0;
+	if(player.yVelocity < 0) { // if rising
+		checkUp(player);
+	} else if(player.yVelocity > 0) { // if falling
+		checkDown(player);
 	};
 	
-	if(player.y < topBoundary) {
-		player.y = topBoundary;
-		player.yVelocity = 0;
-	};
-	
-	if(!isOnGround(player, bottomBoundary)) {
+	if(!isOnGround(player)) {
 		player.yVelocity += gravity;
 	};
 	
@@ -251,12 +391,21 @@ function updatePlayer(player) {
 	else { player.frameIndex = 1;};
 };
 
+function debug() {
+	$("#debug").show();
+	if(leftPressed) $("#leftPressed").show(); else $("#leftPressed").hide();
+	if(rightPressed) $("#rightPressed").show(); else $("#rightPressed").hide();
+	if(upPressed) $("#jumpPressed").show(); else $("#jumpPressed").hide();
+	if(runPressed) $("#runPressed").show(); else $("#runPressed").hide();
+}
 
 // primary functions
 function playGame() {
 	setTimeout(function() {
 		requestAnimationFrame(playGame);
 		ctxt.clearRect(0, 0, canvas.width, canvas.height);
+		
+		debug();
 		
 		drawArena();
 		updatePlayer(playerOne);

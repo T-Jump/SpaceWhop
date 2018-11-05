@@ -13,10 +13,24 @@
 			background-image: url("graphics/bgrepeat.png");
 			background-repeat: repeat;
 		}
+		#debug {
+			display: none;
+			position: absolute;
+			top: 0;
+			right: 0;
+			color: white;
+		}
 	</style>
 </head>
 <body bgcolor="black">
 	<canvas id="main" width="500" height="400" style="width:1000px;height:800px;border:0;"></canvas>
+	<div id="debug">
+		<span id="leftPressed">Left</span>
+		<span id="rightPressed">Right</span>
+		<span id="jumpPressed">Jump</span>
+		<span id="runPressed">Run</span>
+	</div>
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="stuff.js"></script>
 </body>
 </html>
