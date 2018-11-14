@@ -29,7 +29,25 @@
 		<span id="rightPressed">Right</span>
 		<span id="jumpPressed">Jump</span>
 		<span id="runPressed">Run</span>
-		<div><input id="gridToggle" type="checkbox" /></div>
+		
+		<div><span>Toggle grid: </span><input id="gridToggle" type="checkbox" /></div>
+		
+		<div style="margin-top:20px;">
+			<div><span>Select a tile</span></div>
+			<div><input id="borderA" name="tiletype" type="radio" /><span>Left & right border</span></div>
+			<div><input id="borderB" name="tiletype" type="radio" /><span>Top & bottom border</span></div>
+			<div><input id="borderC" name="tiletype" type="radio" /><span>Bottom-left border</span></div>
+			<div><input id="borderD" name="tiletype" type="radio" /><span>Bottom-right border</span></div>
+			<div><input id="borderE" name="tiletype" type="radio" /><span>Top-left border</span></div>
+			<div><input id="borderF" name="tiletype" type="radio" /><span>Top-right border</span></div>
+			<div><input id="cosmicCube" name="tiletype" type="radio" /><span>Cosmic Cube</span></div>
+			<div><input id="gravityCube" name="tiletype" type="radio" /><span>Gravity Cube</span></div>
+		</div>
+		
+		<div style="margin-top:20px">
+			<textarea rows="10" cols="40">Test.</textarea>
+			<div><input id="getPuzzleArray" type="button" value="Generate Puzzle" /></div>
+		</div>
 	</div>
 	
 	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
