@@ -1,3 +1,5 @@
+var tileSheet = "graphics/sprite-sheet-tiles.png";
+
 function CosmicCube(frameNum) {
 	this.currentFrame = frameNum;
 	this.x = 0;
@@ -6,7 +8,7 @@ function CosmicCube(frameNum) {
 	this.moveable = true;
 };
 
-CosmicCube.source = "graphics/sprite-sheet-tiles.png";
+CosmicCube.source = tileSheet;
 CosmicCube.width = 31;
 CosmicCube.height = 31;
 CosmicCube.animationFrames = 4;
@@ -19,4 +21,8 @@ function GravityCube() {
 };
 
 GravityCube.sx = 0;
-GravityCube.sy = 20;
+GravityCube.sy = 32;
+GravityCube.width = 31;
+GravityCube.height = 31;
+GravityCube.image = new Image();
+GravityCube.image.src = tileSheet;
