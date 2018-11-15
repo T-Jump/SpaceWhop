@@ -31,7 +31,7 @@ $(function() {
 				arena.tiles[yIndex][xIndex] = createBorder("br");
 			}
 			else if(selectedTile == 11) {
-				arena.tiles[yIndex][xIndex] = createBorder("tr");
+				arena.tiles[yIndex][xIndex] = createBorder("tl");
 			}
 			else if(selectedTile == 12) {
 				arena.tiles[yIndex][xIndex] = createBorder("tr");
