@@ -13,11 +13,29 @@ $(function() {
 			arena.tiles[yIndex][xIndex] = null;
 		} else {
 			if(selectedTile == 1) {
-				arena.tiles[yIndex][xIndex] = createCosmicCube(0);
+				arena.tiles[yIndex][xIndex] = createCosmicCube();
 			}
-			else if(selectedTile == "gravityCube") {
-				arena.tiles[yIndex][xIndex] = createGraviCube(0);
-			};
+			else if(selectedTile == 2) {
+				arena.tiles[yIndex][xIndex] = createGraviCube();
+			}
+			else if(selectedTile == 7) {
+				arena.tiles[yIndex][xIndex] = createBorder("lr");
+			}
+			else if(selectedTile == 8) {
+				arena.tiles[yIndex][xIndex] = createBorder("tb");
+			}
+			else if(selectedTile == 9) {
+				arena.tiles[yIndex][xIndex] = createBorder("bl");
+			}
+			else if(selectedTile == 10) {
+				arena.tiles[yIndex][xIndex] = createBorder("br");
+			}
+			else if(selectedTile == 11) {
+				arena.tiles[yIndex][xIndex] = createBorder("tr");
+			}
+			else if(selectedTile == 12) {
+				arena.tiles[yIndex][xIndex] = createBorder("tr");
+			}
 		}
 	});
 	$("#getPuzzleArray").click(function(e){

@@ -2,7 +2,7 @@ function Player(imgSource) {
 	this.image = new Image();
 	this.image.src = imgSource;
 	this.x = 250;
-	this.y = canvas.height - (Tile.height + Player.height);
+	this.y = canvas.height - (Tile.height + Player.height + 1);
 	this.frameIndex = 0;
 	this.animationIndex = 0;
 	this.yVelocity = 0;

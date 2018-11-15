@@ -32,7 +32,7 @@ function createCosmicCube(tile) {
 	return tile;
 };
 
-function createGraviCube(tile) {
+function createGraviCube() {
 	tile = new Tile(0);
 	tile.sx = 0;
 	tile.sy = 32;
@@ -43,7 +43,7 @@ function createGraviCube(tile) {
 	return tile;
 };
 
-function createBorder(tile, borderType) {
+function createBorder(borderType) {
 	tile = new Tile(0);
 	tile.sx = 0;
 	if(borderType ==  "lr") {tile.sy = 64}
@@ -68,10 +68,10 @@ function updateTileMap() {
 			for(var c = 0; c < row.length; c++) {
 				var currentTile = map[r][c];
 				if(currentTile == 1) {
-					map[r][c] = createCosmicCube(currentTile);
+					map[r][c] = createCosmicCube();
 				}
 				else if(currentTile == 2) {
-					map[r][c] = createGraviCube(currentTile);
+					map[r][c] = createGraviCube();
 				}
 				else if(currentTile == 3) {
 					// tbd
@@ -86,22 +86,22 @@ function updateTileMap() {
 					// tbd
 				}
 				else if(currentTile == 7) {
-					map[r][c] = createBorder(currentTile, "lr");
+					map[r][c] = createBorder("lr");
 				}
 				else if(currentTile == 8) {
-					map[r][c] = createBorder(currentTile, "tb");
+					map[r][c] = createBorder("tb");
 				}
 				else if(currentTile == 9) {
-					map[r][c] = createBorder(currentTile, "bl");
+					map[r][c] = createBorder("bl");
 				}
 				else if(currentTile == 10) {
-					map[r][c] = createBorder(currentTile, "br");
+					map[r][c] = createBorder("br");
 				}
 				else if(currentTile == 11) {
-					map[r][c] = createBorder(currentTile, "tl");
+					map[r][c] = createBorder("tl");
 				}
 				else if(currentTile == 12) {
-					map[r][c] = createBorder(currentTile, "tr");
+					map[r][c] = createBorder("tr");
 				}
 				else if(currentTile == 0) {
 					map[r][c] = null;
@@ -109,5 +109,4 @@ function updateTileMap() {
 			};
 		};
 	};
-	console.log(arena.tiles);
 };
