@@ -1,28 +1,17 @@
-var tileSheet = "graphics/sprite-sheet-tiles.png";
-
-function CosmicCube(frameNum) {
-	this.currentFrame = frameNum;
-	this.x = 0;
-	this.y = 0;
+function Tile(frameNum) {
+	this.dx = 0;
+	this.dy = 0;
+	this.sx = 0;
+	this.sy = 0;
+	this.type = "";
 	this.animated = false;
-	this.moveable = true;
+	this.currentFrame = frameNum;
+	this.moveable = false;
+	this.destructable = false;
 };
 
-CosmicCube.source = tileSheet;
-CosmicCube.width = 31;
-CosmicCube.height = 31;
-CosmicCube.animationFrames = 4;
-CosmicCube.image = new Image();
-CosmicCube.image.src = CosmicCube.source;
-
-function GravityCube() {
-	this.x = 0;
-	this.y = 0;
-};
-
-GravityCube.sx = 0;
-GravityCube.sy = 32;
-GravityCube.width = 31;
-GravityCube.height = 31;
-GravityCube.image = new Image();
-GravityCube.image.src = tileSheet;
+Tile.width = 32;
+Tile.height = 32;
+Tile.image = new Image();
+Tile.image.src = "graphics/sprite-sheet-tiles.png";
+Tile.animationFrames = 4;

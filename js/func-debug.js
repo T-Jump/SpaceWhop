@@ -8,20 +8,20 @@ $(function() {
 		var xIndex = Math.floor(x / arena.columnWidth);
 		var yIndex = Math.floor(y / arena.rowHeight);
 		var selectedTile = $("input[type='radio'][name='tiletype']:checked").val();
-		var currentTile = puzzle1.tiles[yIndex][xIndex];
+		var currentTile = arena.tiles[yIndex][xIndex];
 		if(currentTile != null) {
-			puzzle1.tiles[yIndex][xIndex] = null;
+			arena.tiles[yIndex][xIndex] = null;
 		} else {
-			if(selectedTile == "cosmicCube") {
-				puzzle1.tiles[yIndex][xIndex] = new CosmicCube(0);
+			if(selectedTile == 1) {
+				arena.tiles[yIndex][xIndex] = createCosmicCube(0);
 			}
 			else if(selectedTile == "gravityCube") {
-				puzzle1.tiles[yIndex][xIndex] = new GravityCube(0);
+				arena.tiles[yIndex][xIndex] = createGraviCube(0);
 			};
 		}
 	});
 	$("#getPuzzleArray").click(function(e){
-		$("textarea").val(puzzle1.tiles);
+		$("textarea").val(arena.tiles);
 	});
 });
 

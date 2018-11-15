@@ -3,8 +3,6 @@ function playGame() {
 		requestAnimationFrame(playGame);
 		ctxt.clearRect(0, 0, canvas.width, canvas.height);
 		
-		debug();
-		
 		drawArena();
 		updatePlayer(playerOne);
 		drawPlayer(playerOne);

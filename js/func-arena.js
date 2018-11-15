@@ -1,31 +1,65 @@
-function drawCube(cosmicCube, dx, dy) {
-	if(cosmicCube.animated && timeElapsed(100)) {
-		cosmicCube.currentFrame = Math.floor(Math.random() * CosmicCube.animationFrames);
+function drawCube(tile) {
+	if(tile.animated && timeElapsed(100)) {
+		tile.currentFrame = Math.floor(Math.random() * Tile.animationFrames);
 	};
-	var sx = CosmicCube.width * cosmicCube.currentFrame;
-	var sy = 0;
-	ctxt.drawImage(CosmicCube.image, sx, sy, CosmicCube.width, CosmicCube.height, dx, dy, CosmicCube.width, CosmicCube.height);
+	var sx = Tile.width * tile.currentFrame;
+	var sy = tile.sy;
+	ctxt.drawImage(Tile.image, sx, sy, Tile.width, Tile.height, tile.dx, tile.dy, Tile.width, Tile.height);
 };
 
 function drawArena() {
-	if(!puzzleOneSolved) {
-		arena.tiles = puzzle1.tiles;
-	}
 	for(var r = 0; r < arena.tiles.length; r++) {
 		var row = arena.tiles[r];
 		for(var c = 0; c < row.length; c++) {
 			var currentTile = arena.tiles[r][c];
-			if(currentTile instanceof CosmicCube) {
-				var cosmicCube = currentTile;
-				x = c * arena.columnWidth;
-				y = r * arena.rowHeight;
-				drawCube(cosmicCube, x, y);
+			if(currentTile instanceof Tile) {
+				currentTile.dx = c * arena.columnWidth;
+				currentTile.dy = r * arena.rowHeight;
+				drawCube(currentTile);
 			};
 		};
 	};
 };
 
-function updateTileMap() { // changes 1 to CosmicCube and 0 to null and etc
+function createCosmicCube(tile) {
+	tile = new Tile(0);
+	tile.sx = 0;
+	tile.sy = 0;
+	tile.type = "Cosmic Cube";
+	tile.animated = true;
+	tile.moveable = true;
+	tile.destructable = true;
+	return tile;
+};
+
+function createGraviCube(tile) {
+	tile = new Tile(0);
+	tile.sx = 0;
+	tile.sy = 32;
+	tile.type = "Gravi Cube";
+	tile.animated = false;
+	tile.moveable = false;
+	tile.destructable = false;
+	return tile;
+};
+
+function createBorder(tile, borderType) {
+	tile = new Tile(0);
+	tile.sx = 0;
+	if(borderType ==  "lr") {tile.sy = 64}
+	else if(borderType ==  "tb") {tile.sy = 96}
+	else if(borderType ==  "bl") {tile.sy = 128}
+	else if(borderType ==  "br") {tile.sy = 160}
+	else if(borderType ==  "tl") {tile.sy = 192}
+	else if(borderType ==  "tr") {tile.sy = 224};
+	tile.type = "Border";
+	tile.animated = false;
+	tile.moveable = false;
+	tile.destructable = false;
+	return tile;
+};
+
+function updateTileMap() {
 	maps = [arena.tiles, puzzle1.tiles];
 	for(var i = 0; i < maps.length; i++) {
 		map = maps[i];
@@ -34,22 +68,46 @@ function updateTileMap() { // changes 1 to CosmicCube and 0 to null and etc
 			for(var c = 0; c < row.length; c++) {
 				var currentTile = map[r][c];
 				if(currentTile == 1) {
-					map[r][c] = new CosmicCube(0);
-					map[r][c].animated = true;
+					map[r][c] = createCosmicCube(currentTile);
+				}
+				else if(currentTile == 2) {
+					map[r][c] = createGraviCube(currentTile);
+				}
+				else if(currentTile == 3) {
+					// tbd
+				}
+				else if(currentTile == 4) {
+					// tbd
+				}
+				else if(currentTile == 5) {
+					// tbd
+				}
+				else if(currentTile == 6) {
+					// tbd
+				}
+				else if(currentTile == 7) {
+					map[r][c] = createBorder(currentTile, "lr");
+				}
+				else if(currentTile == 8) {
+					map[r][c] = createBorder(currentTile, "tb");
+				}
+				else if(currentTile == 9) {
+					map[r][c] = createBorder(currentTile, "bl");
+				}
+				else if(currentTile == 10) {
+					map[r][c] = createBorder(currentTile, "br");
+				}
+				else if(currentTile == 11) {
+					map[r][c] = createBorder(currentTile, "tl");
+				}
+				else if(currentTile == 12) {
+					map[r][c] = createBorder(currentTile, "tr");
 				}
 				else if(currentTile == 0) {
 					map[r][c] = null;
-				}
-				else if(currentTile == 2) {
-					randomFrame = Math.floor(Math.random() * CosmicCube.animationFrames);
-					map[r][c] = new CosmicCube(randomFrame);
-					map[r][c].x = c * arena.columnWidth;
-					map[r][c].y = r * arena.rowHeight;
-				}
-				else if(currentTile == 5) {
-					map[r][c] = new GravityCube();
 				};
 			};
 		};
 	};
+	console.log(arena.tiles);
 };
