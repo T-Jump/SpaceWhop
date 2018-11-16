@@ -39,7 +39,21 @@ $(function() {
 		}
 	});
 	$("#getPuzzleArray").click(function(e){
-		$("textarea").val(arena.tiles);
+		var rows = arena.tiles;
+		var puzzleText = "[";
+		for(var r = 0; r < rows.length; r++) {
+			var row = rows[r];
+			puzzleText += "["
+			for(var c = 0; c < rows.length; c++) {
+				var currentTile = rows[r][c];
+				var tileType = (currentTile == null) ? 0 : currentTile.type;
+				puzzleText += tileType + ",";
+			};
+			puzzleText = puzzleText.slice(0, -1) + "],\n";
+		};
+		puzzleText = puzzleText.slice(0, -2) + "]";
+				
+		$("textarea").val(puzzleText);
 	});
 });
 

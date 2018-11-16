@@ -25,7 +25,7 @@ function createCosmicCube(tile) {
 	tile = new Tile(0);
 	tile.sx = 0;
 	tile.sy = 0;
-	tile.type = "Cosmic Cube";
+	tile.type = 1;
 	tile.animated = true;
 	tile.moveable = true;
 	tile.destructable = true;
@@ -36,7 +36,7 @@ function createGraviCube() {
 	tile = new Tile(0);
 	tile.sx = 0;
 	tile.sy = 32;
-	tile.type = "Gravi Cube";
+	tile.type = 2;
 	tile.animated = false;
 	tile.moveable = false;
 	tile.destructable = false;
@@ -46,13 +46,12 @@ function createGraviCube() {
 function createBorder(borderType) {
 	tile = new Tile(0);
 	tile.sx = 0;
-	if(borderType ==  "lr") {tile.sy = 192}
-	else if(borderType ==  "tb") {tile.sy = 224}
-	else if(borderType ==  "bl") {tile.sy = 256}
-	else if(borderType ==  "br") {tile.sy = 288}
-	else if(borderType ==  "tl") {tile.sy = 320}
-	else if(borderType ==  "tr") {tile.sy = 352};
-	tile.type = "Border";
+	if(borderType ==  "lr") {tile.sy = 192; tile.type = 7}
+	else if(borderType ==  "tb") {tile.sy = 224; tile.type = 8}
+	else if(borderType ==  "bl") {tile.sy = 256; tile.type = 9}
+	else if(borderType ==  "br") {tile.sy = 288; tile.type = 10}
+	else if(borderType ==  "tl") {tile.sy = 320; tile.type = 11}
+	else if(borderType ==  "tr") {tile.sy = 352; tile.type = 12};
 	tile.animated = false;
 	tile.moveable = false;
 	tile.destructable = false;
