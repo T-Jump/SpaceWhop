@@ -18,24 +18,9 @@ $(function() {
 			else if(selectedTile == 2) {
 				arena.tiles[yIndex][xIndex] = createGraviCube();
 			}
-			else if(selectedTile == 7) {
-				arena.tiles[yIndex][xIndex] = createBorder("lr");
-			}
-			else if(selectedTile == 8) {
-				arena.tiles[yIndex][xIndex] = createBorder("tb");
-			}
-			else if(selectedTile == 9) {
-				arena.tiles[yIndex][xIndex] = createBorder("bl");
-			}
-			else if(selectedTile == 10) {
-				arena.tiles[yIndex][xIndex] = createBorder("br");
-			}
-			else if(selectedTile == 11) {
-				arena.tiles[yIndex][xIndex] = createBorder("tl");
-			}
-			else if(selectedTile == 12) {
-				arena.tiles[yIndex][xIndex] = createBorder("tr");
-			}
+			else if(selectedTile >= 7 && selectedTile <= 20) {
+				arena.tiles[yIndex][xIndex] = createBorder(selectedTile);
+			};
 		}
 	});
 	$("#getPuzzleArray").click(function(e){

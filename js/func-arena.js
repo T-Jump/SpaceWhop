@@ -46,12 +46,20 @@ function createGraviCube() {
 function createBorder(borderType) {
 	tile = new Tile(0);
 	tile.sx = 0;
-	if(borderType ==  "lr") {tile.sy = 192; tile.type = 7}
-	else if(borderType ==  "tb") {tile.sy = 224; tile.type = 8}
-	else if(borderType ==  "bl") {tile.sy = 256; tile.type = 9}
-	else if(borderType ==  "br") {tile.sy = 288; tile.type = 10}
-	else if(borderType ==  "tl") {tile.sy = 320; tile.type = 11}
-	else if(borderType ==  "tr") {tile.sy = 352; tile.type = 12};
+	if(borderType ==  7) {tile.sy = 192; tile.type = borderType}
+	else if(borderType ==  8) {tile.sy = 224; tile.type = borderType}
+	else if(borderType ==  9) {tile.sy = 256; tile.type = borderType}
+	else if(borderType ==  10) {tile.sy = 288; tile.type = borderType}
+	else if(borderType ==  11) {tile.sy = 320; tile.type = borderType}
+	else if(borderType ==  12) {tile.sy = 352; tile.type = borderType}
+	else if(borderType ==  13) {tile.sy = 384; tile.type = borderType}
+	else if(borderType ==  14) {tile.sy = 416; tile.type = borderType}
+	else if(borderType ==  15) {tile.sy = 448; tile.type = borderType}
+	else if(borderType ==  16) {tile.sy = 480; tile.type = borderType}
+	else if(borderType ==  17) {tile.sy = 512; tile.type = borderType}
+	else if(borderType ==  18) {tile.sy = 544; tile.type = borderType}
+	else if(borderType ==  19) {tile.sy = 576; tile.type = borderType}
+	else if(borderType ==  20) {tile.sy = 608; tile.type = borderType};
 	tile.animated = false;
 	tile.moveable = false;
 	tile.destructable = false;
@@ -84,23 +92,8 @@ function updateTileMap() {
 				else if(currentTile == 6) {
 					// tbd
 				}
-				else if(currentTile == 7) {
-					map[r][c] = createBorder("lr");
-				}
-				else if(currentTile == 8) {
-					map[r][c] = createBorder("tb");
-				}
-				else if(currentTile == 9) {
-					map[r][c] = createBorder("bl");
-				}
-				else if(currentTile == 10) {
-					map[r][c] = createBorder("br");
-				}
-				else if(currentTile == 11) {
-					map[r][c] = createBorder("tl");
-				}
-				else if(currentTile == 12) {
-					map[r][c] = createBorder("tr");
+				else if(currentTile >= 7 && currentTile <= 20) {
+					map[r][c] = createBorder(currentTile);
 				}
 				else if(currentTile == 0) {
 					map[r][c] = null;
