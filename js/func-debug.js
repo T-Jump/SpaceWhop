@@ -38,11 +38,11 @@ $(function() {
 		};
 		puzzleText = puzzleText.slice(0, -2) + "]";
 				
-		$("textarea#exportPuzzle").val(puzzleText);
+		$("textarea#puzzleText").val(puzzleText);
 	});
 	
 	$("#parsePuzzleArray").click(function(e){
-		var puzzleString = $("textarea#importPuzzle").val();
+		var puzzleString = $("textarea#puzzleText").val();
 		var puzzleArray = JSON.parse(puzzleString);
 		arena.tiles = puzzleArray;
 		updateTileMap();

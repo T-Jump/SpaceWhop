@@ -97,6 +97,14 @@ function checkUp(player) {
 	};
 };
 
+function getCurrentTile(player) {
+	// tbd
+};
+
+function getTileBelow(player) {
+	// tbd
+};
+
 function updatePlayer(player) {
 	var topBoundary = arena.border * arena.rowHeight;
 	
