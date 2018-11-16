@@ -24,11 +24,13 @@
 </head>
 <body bgcolor="black">
 	<canvas id="main" width="480" height="384" style="width:960px;height:768px;border:0;"></canvas>
-	<div id="debug">
-		<span id="leftPressed">Left</span>
-		<span id="rightPressed">Right</span>
-		<span id="jumpPressed">Jump</span>
-		<span id="runPressed">Run</span>
+	<div id="debug" style="margin-right:20px">
+		<div style="height:30px">
+			<span id="leftPressed">Left</span>
+			<span id="rightPressed">Right</span>
+			<span id="jumpPressed">Jump</span>
+			<span id="runPressed">Run</span>
+		</div>
 		
 		<div><span>Toggle grid: </span><input id="gridToggle" type="checkbox" /></div>
 		
@@ -45,8 +47,21 @@
 		</div>
 		
 		<div style="margin-top:20px">
-			<textarea rows="10" cols="40">Test.</textarea>
-			<div><input id="getPuzzleArray" type="button" value="Generate Puzzle" /></div>
+			<textarea id="exportPuzzle" rows="10" cols="40"></textarea>
+			<div><input id="getPuzzleArray" type="button" value="Export Puzzle" /></div>
+		</div>
+		
+		<div style="margin-top:20px">
+			<textarea id="importPuzzle" rows="10" cols="40"></textarea>
+			<div><input id="parsePuzzleArray" type="button" value="Import Puzzle" /></div>
+		</div>
+		
+		<div style="margin-top:20px">
+			<span>Game settings:</span> <input id="saveSettings" type="button" value="Save" />
+			<div><input id="gravityChanger" type="text" value="1" size="2" /><span>Gravity</span></div>
+			<div><input id="forceChanger" type="text" value="10" size="2" /><span>Jump force</span></div>
+			<div><input id="speedChanger" type="text" value="3" size="2" /><span>Player speed</span></div>
+			<div><input id="hitboxChanger" type="text" value="6" size="2" /><span>Hitbox width</span></div>
 		</div>
 	</div>
 	

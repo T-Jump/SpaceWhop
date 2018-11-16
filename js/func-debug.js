@@ -53,7 +53,21 @@ $(function() {
 		};
 		puzzleText = puzzleText.slice(0, -2) + "]";
 				
-		$("textarea").val(puzzleText);
+		$("textarea#exportPuzzle").val(puzzleText);
+	});
+	
+	$("#parsePuzzleArray").click(function(e){
+		var puzzleString = $("textarea#importPuzzle").val();
+		var puzzleArray = JSON.parse(puzzleString);
+		arena.tiles = puzzleArray;
+		updateTileMap();
+	});
+	
+	$("#saveSettings").click(function(e){
+		gravity = $("#gravityChanger").val();
+		Player.jumpForce = $("#forceChanger").val();
+		Player.speed = $("#speedChanger").val();
+		Player.hitbox = $("#hitboxChanger").val();
 	});
 });
 

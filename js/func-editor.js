@@ -38,8 +38,8 @@ function editGame() {
 		
 		drawArena();
 		if(showGrid) drawGrid();
-		// updatePlayer(playerOne);
-		// drawPlayer(playerOne);
+		updatePlayer(playerOne);
+		drawPlayer(playerOne);
 		
 		elapsedFrames = (elapsedFrames + 1) % fps;
 	}, 1000 / fps);
