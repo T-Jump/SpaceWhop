@@ -46,12 +46,12 @@ function createGraviCube() {
 function createBorder(borderType) {
 	tile = new Tile(0);
 	tile.sx = 0;
-	if(borderType ==  "lr") {tile.sy = 64}
-	else if(borderType ==  "tb") {tile.sy = 96}
-	else if(borderType ==  "bl") {tile.sy = 128}
-	else if(borderType ==  "br") {tile.sy = 160}
-	else if(borderType ==  "tl") {tile.sy = 192}
-	else if(borderType ==  "tr") {tile.sy = 224};
+	if(borderType ==  "lr") {tile.sy = 192}
+	else if(borderType ==  "tb") {tile.sy = 224}
+	else if(borderType ==  "bl") {tile.sy = 256}
+	else if(borderType ==  "br") {tile.sy = 288}
+	else if(borderType ==  "tl") {tile.sy = 320}
+	else if(borderType ==  "tr") {tile.sy = 352};
 	tile.type = "Border";
 	tile.animated = false;
 	tile.moveable = false;
