@@ -8,7 +8,7 @@ function drawPlayer(player) {
 
 function animatePlayer(player, animationSpeed) {
 	if(elapsedFramesMovement++ == 0) {
-		player.frameIndex = 0;
+		player.frameIndex = 1;
 	} else if(timeElapsedMovement(animationSpeed)) {
 		player.frameIndex = (player.frameIndex + 1) % (player.image.width / Player.width);
 	};
@@ -26,9 +26,29 @@ function movePlayerRight(player, speed) {
 	player.x = checkRight(player);
 };
 
+function movePlayerUp(player) {
+	player.yVelocity -= player.jumpForce;
+};
+
+function movePlayerDown(player) {
+	player.yVelocity += gravity;
+};
+
+function getPlayerPos(player) {
+	var playerPos = {
+		xIndexMin: Math.floor(player.x / arena.columnWidth),
+		xIndexMax: Math.floor((player.x + Player.width) / arena.columnWidth),
+		yIndexMin: Math.floor(player.y / arena.rowHeight),
+		yIndexMax: Math.floor((player.y + Player.height) / arena.rowHeight)
+	};
+	return playerPos;
+};
+
 function isOnGround(player) {
-	var xIndexMin = Math.floor(player.x / arena.columnWidth);
-	var xIndexMax = Math.floor((player.x + Player.width) / arena.columnWidth);
+	var playerPos = getPlayerPos(player);
+	var xIndexMin = playerPos.xIndexMin;
+	var xIndexMax = playerPos.xIndexMax;
+	//var yIndex = playerPos.yIndexMax;
 	var yIndex = Math.floor((player.y + Player.height + 1) / arena.rowHeight);
 	for(var xIndex = xIndexMin; xIndex <= xIndexMax; xIndex++) {
 		var currentTile = arena.tiles[yIndex][xIndex];
@@ -40,9 +60,10 @@ function isOnGround(player) {
 };
 
 function checkLeft(player) {
-	var xIndex = Math.floor(player.x / arena.columnWidth);
-	var yIndexMin = Math.floor(player.y / arena.rowHeight);
-	var yIndexMax = Math.floor((player.y + Player.height) / arena.rowHeight);
+	var playerPos = getPlayerPos(player);
+	var xIndex = playerPos.xIndexMin;
+	var yIndexMin = playerPos.yIndexMin;
+	var yIndexMax = playerPos.yIndexMax;
 	var xPos = player.x;
 	for(var yIndex = yIndexMin; yIndex <= yIndexMax; yIndex++) {
 		var currentTile = arena.tiles[yIndex][xIndex];
@@ -55,9 +76,10 @@ function checkLeft(player) {
 };
 
 function checkRight(player) {
-	var xIndex = Math.floor((player.x + Player.width) / arena.columnWidth);
-	var yIndexMin = Math.floor(player.y / arena.rowHeight);
-	var yIndexMax = Math.floor((player.y + Player.height) / arena.rowHeight);
+	var playerPos = getPlayerPos(player);
+	var xIndex = playerPos.xIndexMax;;
+	var yIndexMin = playerPos.yIndexMin;
+	var yIndexMax = playerPos.yIndexMax;
 	var xPos = player.x;
 	for(var yIndex = yIndexMin; yIndex <= yIndexMax; yIndex++) {
 		var currentTile = arena.tiles[yIndex][xIndex];
@@ -70,9 +92,10 @@ function checkRight(player) {
 };
 
 function checkDown(player) {
-	var xIndexMin = Math.floor(player.x / arena.columnWidth);
-	var xIndexMax = Math.floor((player.x + Player.width) / arena.columnWidth);
-	var yIndex = Math.floor((player.y + Player.height) / arena.rowHeight);
+	var playerPos = getPlayerPos(player);
+	var xIndexMin = playerPos.xIndexMin;
+	var xIndexMax = playerPos.xIndexMax;
+	var yIndex = playerPos.yIndexMax;
 	for(var xIndex = xIndexMin; xIndex <= xIndexMax; xIndex++) {
 		var currentTile = arena.tiles[yIndex][xIndex];
 		if(currentTile !== null) {
@@ -84,9 +107,10 @@ function checkDown(player) {
 };
 
 function checkUp(player) {
-	var xIndexMin = Math.floor(player.x / arena.columnWidth);
-	var xIndexMax = Math.floor((player.x + Player.width) / arena.columnWidth);
-	var yIndex = Math.floor(player.y / arena.rowHeight);
+	var playerPos = getPlayerPos(player);
+	var xIndexMin = playerPos.xIndexMin;
+	var xIndexMax = playerPos.xIndexMax;
+	var yIndex = playerPos.yIndexMin;
 	for(var xIndex = xIndexMin; xIndex <= xIndexMax; xIndex++) {
 		var currentTile = arena.tiles[yIndex][xIndex];
 		if(currentTile !== null) {
@@ -97,16 +121,27 @@ function checkUp(player) {
 	};
 };
 
-function getCurrentTile(player) {
-	// tbd
+function getBlock(player) {
+	var xCenter = player.x + Math.floor(Player.width / 2);
+	var yIndex = Math.floor((player.y + Player.height + 1) / arena.rowHeight);
+	var xIndex = Math.floor(xCenter / arena.columnWidth);
+	var currentTile = arena.tiles[yIndex][xIndex];
+	if(currentTile.moveable) {
+		player.held = currentTile;
+		arena.tiles[yIndex][xIndex] = null;
+	};
 };
 
-function getTileBelow(player) {
-	// tbd
+function dropBlock(player) {
+	var xCenter = player.x + Math.floor(Player.width / 2);
+	var yIndex = Math.floor((player.y + Player.height + 1) / arena.rowHeight) - 1;
+	var xIndex = Math.floor(xCenter / arena.columnWidth);
+	arena.tiles[yIndex][xIndex] = player.held;
+	player.held = null;
 };
 
 function updatePlayer(player) {
-	var topBoundary = arena.border * arena.rowHeight;
+	var topBoundary = arena.rowHeight;
 	
 	var animationSpeed = 100;
 	var currentSpeed = Player.speed;
@@ -119,24 +154,13 @@ function updatePlayer(player) {
 	if(isOnGround(player)) {
 		player.yVelocity = 0;
 		if(upPressed) {
-			player.yVelocity -= player.jumpForce;
+			movePlayerUp(player);
 		};
 		if(getPressed && player.held == null) {
-			var xCenter = player.x + Math.floor(Player.width / 2);
-			var yIndex = Math.floor((player.y + Player.height + 1) / arena.rowHeight);
-			var xIndex = Math.floor(xCenter / arena.columnWidth);
-			var currentTile = arena.tiles[yIndex][xIndex];
-			if(currentTile.moveable) {
-				player.held = currentTile;
-				arena.tiles[yIndex][xIndex] = null;
-			};
+			getBlock(player);
 		};
 		if(dropPressed && player.held != null) {
-			var xCenter = player.x + Math.floor(Player.width / 2);
-			var yIndex = Math.floor((player.y + Player.height + 1) / arena.rowHeight) - 1;
-			var xIndex = Math.floor(xCenter / arena.columnWidth);
-			arena.tiles[yIndex][xIndex] = player.held;
-			player.held = null;
+			dropBlock(player);
 		};
 	};
 	
@@ -148,7 +172,7 @@ function updatePlayer(player) {
 	};
 	
 	if(!isOnGround(player)) {
-		player.yVelocity += gravity;
+		movePlayerDown(player);
 	};
 	
 	var playerMoving = leftPressed || rightPressed;

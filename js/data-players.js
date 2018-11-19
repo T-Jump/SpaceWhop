@@ -14,6 +14,7 @@ Player.width = 25;
 Player.hitboxWidth = 6;
 Player.height = 54;
 Player.speed = 3;
+Player.animationSpeed = 100;
 
 
 // players
