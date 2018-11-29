@@ -8,16 +8,35 @@ function drawCube(tile) {
 };
 
 function drawArena() {
-	for(var r = 0; r < arena.tiles.length; r++) {
+	var leftXIndex = Math.floor(camera.x / arena.columnWidth);
+	var rightXIndex = Math.floor((camera.x + camera.width) / arena.columnWidth);
+	if(rightXIndex >= arena.columns) {
+		rightXIndex = arena.columns - 1;
+	};
+	var topYIndex = Math.floor(camera.y / arena.rowHeight);
+	var bottomYIndex = Math.floor((camera.y + camera.height) / arena.rowHeight);
+	if(bottomYIndex >= arena.rows) {
+		bottomYIndex = arena.rows - 1;
+	};
+	
+	var offsetX = camera.x - (leftXIndex * arena.columnWidth);
+	var offsetY = camera.y - (topYIndex * arena.rowHeight);
+	
+	var yCount = 0;
+	
+	for(var r = topYIndex; r <= bottomYIndex; r++) {
+		var xCount = 0;
 		var row = arena.tiles[r];
-		for(var c = 0; c < row.length; c++) {
+		for(var c = leftXIndex; c <= rightXIndex; c++) {
 			var currentTile = arena.tiles[r][c];
 			if(currentTile instanceof Tile) {
-				currentTile.dx = c * arena.columnWidth;
-				currentTile.dy = r * arena.rowHeight;
+				currentTile.dx = (xCount * arena.columnWidth) - offsetX;
+				currentTile.dy = (yCount * arena.rowHeight) - offsetY;
 				drawCube(currentTile);
 			};
+			xCount++;
 		};
+		yCount++;
 	};
 };
 

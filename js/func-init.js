@@ -3,8 +3,9 @@ function playGame() {
 		requestAnimationFrame(playGame);
 		ctxt.clearRect(0, 0, canvas.width, canvas.height);
 		
-		drawArena();
 		updatePlayer(playerOne);
+		updateCamera(playerOne);
+		drawArena();
 		drawPlayer(playerOne);
 		
 		elapsedFrames = (elapsedFrames + 1) % fps;

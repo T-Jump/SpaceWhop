@@ -3,7 +3,9 @@
 function drawPlayer(player) {
 	var sx = player.frameIndex * Player.width;
 	var sy = player.animationIndex * Player.height;
-	ctxt.drawImage(player.image, sx, sy, Player.width, Player.height, player.x, player.y, Player.width, Player.height);
+	var dx = player.x - camera.x;
+	var dy = player.y - camera.y;
+	ctxt.drawImage(player.image, sx, sy, Player.width, Player.height, dx, dy, Player.width, Player.height);
 };
 
 function animatePlayer(player, animationSpeed) {

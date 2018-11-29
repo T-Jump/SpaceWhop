@@ -1,3 +1,14 @@
+function Camera() {
+	this.x = 0;
+	this.y = 0;
+	this.width = canvas.width;
+	this.height = canvas.height;
+	this.speed = 3;
+};
+
+var camera = new Camera();
+
+
 var arena = {
 	border: 1,
 	columns: 15,
@@ -35,4 +46,12 @@ var puzzle1 = {
 		[07, 00, 00, 02, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 07],
 		[09, 08, 08, 08, 08, 08, 08, 08, 08, 08, 08, 08, 08, 08, 10],
 	],
+};
+
+function getArenaWidth() {
+	return arena.columnWidth * arena.columns;
+};
+
+function getArenaHeight() {
+	return arena.rowHeight * arena.rows;
 };

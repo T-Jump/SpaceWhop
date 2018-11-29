@@ -14,6 +14,12 @@ function timeElapsedMovement(ms) {
 	return elapsedFramesMovement % (fps / animationRate) == 0;
 };
 
+function getCenter(x,y,width,height) {
+	var centerX = Math.floor(width / 2 + x);
+	var centerY = Math.floor(height / 2 + y);
+	return {x: centerX, y:centerY};
+};
+
 function keyDownHandler(event) {
 	switch(event.keyCode) {
 		case 39: rightPressed = true; break;
