@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Space Whop</title>
+	<title>Whoppit</title>
 	<style>
 		canvas {  
 			image-rendering: -moz-crisp-edges;
@@ -20,10 +20,16 @@
 			right: 0;
 			color: white;
 		}
+		#main {
+			border: 64px solid transparent;
+			border-image-source: url(graphics/border-stg1.png);
+			border-image-slice: 64;
+			border-image-repeat: repeat;
+		}
 	</style>
 </head>
 <body bgcolor="black">
-	<canvas id="main" width="416" height="320" style="width:832px;height:640px;border:1px solid white;"></canvas>
+	<canvas id="main" width="416" height="320" style="width:832px;height:640px;"></canvas>
 	<div id="debug">
 		<span id="leftPressed">Left</span>
 		<span id="rightPressed">Right</span>
