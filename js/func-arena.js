@@ -62,6 +62,17 @@ function createGraviCube() {
 	return tile;
 };
 
+function createGroovyRock() {
+	tile = new Tile(0);
+	tile.sx = 0;
+	tile.sy = 640;
+	tile.type = 3;
+	tile.animated = false;
+	tile.moveable = false;
+	tile.destructable = false; 
+	return tile;
+};
+
 function createBorder(borderType) {
 	tile = new Tile(0);
 	tile.sx = 0;
@@ -100,7 +111,7 @@ function updateTileMap() {
 					map[r][c] = createGraviCube();
 				}
 				else if(currentTile == 3) {
-					// tbd
+					map[r][c] = createGroovyRock();
 				}
 				else if(currentTile == 4) {
 					// tbd
