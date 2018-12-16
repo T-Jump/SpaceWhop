@@ -142,6 +142,10 @@ function dropBlock(player) {
 	player.held = null;
 };
 
+function throwBlock(player) {
+	// tbd
+};
+
 function updatePlayer(player) {
 	var topBoundary = arena.rowHeight;
 	

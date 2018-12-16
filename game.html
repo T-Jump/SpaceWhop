@@ -3,15 +3,23 @@
 <head>
 	<title>Whoppit</title>
 	<style>
-		canvas {  
+		canvas, img {  
 			image-rendering: -moz-crisp-edges;
 			image-rendering: -webkit-crisp-edges;
 			image-rendering: pixelated;
-			image-rendering: crisp-edges;
+			image-rendering: crisp-edgess;
 		}
 		body {
 			background-image: url("graphics/bgrepeat.png");
 			background-repeat: repeat;
+		}
+		#bg2 {
+			width: 1178px;
+			height: 626px;
+			position: absolute;
+			left: 25%;
+			top: 0;
+			z-index: -1;
 		}
 		#debug {
 			display: none;
@@ -29,6 +37,7 @@
 	</style>
 </head>
 <body bgcolor="black">
+	<img id="bg2" src="graphics/bg.png" />
 	<canvas id="main" width="416" height="320" style="width:832px;height:640px;"></canvas>
 	<div id="debug">
 		<span id="leftPressed">Left</span>
@@ -42,10 +51,12 @@
 	<script type="text/javascript" src="js/data-global.js"></script>
 	<script type="text/javascript" src="js/data-cubes.js"></script>
 	<script type="text/javascript" src="js/data-players.js"></script>
+	<script type="text/javascript" src="js/data-enemies.js"></script>
 	<script type="text/javascript" src="js/data-puzzles.js"></script>
 	<script type="text/javascript" src="js/func-helper.js"></script>
 	<script type="text/javascript" src="js/func-arena.js"></script>
 	<script type="text/javascript" src="js/func-players.js"></script>
+	<script type="text/javascript" src="js/func-enemies.js"></script>
 	<script type="text/javascript" src="js/func-camera.js"></script>
 	<script type="text/javascript" src="js/func-init.js"></script>
 
